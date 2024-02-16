@@ -3,6 +3,7 @@ package com.example.redisdemo;
 import com.example.redisdemo.service.StudentService;
 import com.example.redisdemo.type.Student;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,8 +18,9 @@ public class controller {
 
     private final StudentService service;
 
+    @Cacheable("students")
     @GetMapping("/student/{id}")
-    Student getStudentById(@PathVariable("id") String id) {
+    public Student getStudentById(@PathVariable("id") String id) {
         return service.retrieveStudent(id);
     }
     
