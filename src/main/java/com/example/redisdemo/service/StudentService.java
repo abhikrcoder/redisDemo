@@ -13,22 +13,23 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class StudentService {
-    private final StudentRepository studentRepository;
+    //private final StudentRepository studentRepository;
+
+    private final List<Student> students = new ArrayList<>(List.of(Student.builder().id("1223").build()));
 
     public Student saveNewStudent(@NonNull Student student) {
-        return studentRepository.save(student);
+        students.add(student);
+        return student;
     }
 
     public Student retrieveStudent(@NonNull String id) {
-        Student retrievedStudent =
-                studentRepository.findById(id).get();
-        return retrievedStudent;
+        return students.stream().filter(f-> f.getId().equals(id)).findFirst().orElse(null);
     }
 
     public List<Student> retrieveAllStudents() {
-        List<Student> studentsList = new ArrayList<>();
-        studentRepository.findAll()
-        .forEach(studentsList::add);
-        return studentsList;
+        return students;
+    }
+    public Boolean deleteStudent(String id) {
+        return students.removeIf(f-> f.getId().equals(id));
     }
 }
